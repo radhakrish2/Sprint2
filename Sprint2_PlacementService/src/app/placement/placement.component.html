@@ -1,0 +1,167 @@
+
+
+
+
+
+
+
+<div class="container-fluid">
+	<div class="table-responsive">
+		<div id="myalert" style="display: none;" class="alert alert-success col-12 text-center ml-auto" role="alert">
+			Updated Successfully!
+		  </div>
+		<div class="table-wrapper">
+			<div class="table-title">
+				
+				<div class="row">
+					
+					<div class="col-sm-6">
+						<h2>Manage <b>Placements</b></h2>
+					</div>
+					<div class="col-sm-4">
+					</div>
+					<div class="col-sm-2">
+						<a href="#addPlacementModal" class="btn btn-success" data-toggle="modal"><span>Add New Placement</span></a>
+					</div>
+
+				
+				</div>
+			</div>
+			<table class="table table-striped table-hover">
+				<thead>
+					<tr>
+						<th>Id</th>
+						<th>Company Name</th>
+						<th>Job Titile</th>
+						<th>Placement Date</th>
+						<th>Student Id</th>
+						
+					</tr>
+				</thead>
+
+				<tr *ngIf="(placements.length==0);else empList">
+					<th colspan="6"> No data found<th>
+				</tr>
+
+				<ng-template #empList>
+					<tbody *ngFor="let placement of placements">
+
+						<tr>
+							<td>
+								{{placement.id}}
+							</td>
+							<td>{{placement.companyName}}</td>
+							<td>{{placement.jobTitile}}</td>
+							<td>{{placement.placementDate}}</td>
+							<td>{{placement.studentId}}</td>
+							
+							<td>
+								<a (click)="editPlacement(placement)" href="#editPlacementModal" class="edit" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
+								<a (click)="editPlacement(placement)"  href="#deletePlacementModal" class="delete" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
+							</td>
+						</tr>
+						
+					</tbody>
+				</ng-template>
+				
+			</table>
+		
+		</div>
+	</div>        
+</div>
+<!-- Edit Modal HTML -->
+<div id="addPlacementModal" class="modal fade">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<form (ngSubmit)="createPlacement()" >
+				<div class="modal-header">						
+					<h4 class="modal-title">Add Placement</h4>
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+				</div>
+				<div class="modal-body">					
+					<div class="form-group">
+						<label>Company Name</label>
+						<input name="cname" [(ngModel)]="newPlacement.companyName" type="text" class="form-control" required>
+					</div>
+					<div class="form-group">
+						<label>Job title</label>
+						<input name="jobtitle" [(ngModel)]="newPlacement.jobTitile" type="text" class="form-control" required>
+					</div>
+					<div class="form-group">
+						<label>Placement Date</label>
+						<input name="date" [(ngModel)]="newPlacement.placementDate" type="date" class="form-control" required>
+					</div>
+					<div class="form-group">
+						<label>Student Id</label>
+						<input type="number" name="studId" [(ngModel)]="newPlacement.studentId" class="form-control" required>
+					</div>	
+					
+				
+
+				</div>
+				<div class="modal-footer">
+					<input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
+					<input id="addBtn" type="submit" class="btn btn-success" value="Add">
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
+<!-- Edit Modal HTML -->
+<div id="editPlacementModal" class="modal fade">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<form (ngSubmit)="updatePlacement()">
+				<div class="modal-header">						
+					<h4 class="modal-title">Edit Placement</h4>
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+				</div>
+				<div class="modal-body">					
+                    <div class="form-group">
+						<label>Company Name</label>
+						<input name="cname" [(ngModel)]="updatedPlacement.companyName" type="text" class="form-control" required>
+					</div>
+					<div class="form-group">
+						<label>Job Title</label>
+						<input name="jobTitle" [(ngModel)]="updatedPlacement.jobTitile" type="text" class="form-control" required>
+					</div>
+					<div class="form-group">
+						<label>Placement Date</label>
+						<input name="placeDate" [(ngModel)]="updatedPlacement.placementDate" type="date" class="form-control" required>
+					</div>
+					<div class="form-group">
+						<label>Student Id</label>
+						<input type="text" name="studId" [(ngModel)]="updatedPlacement.studentId" class="form-control" required>
+					</div>		
+					
+				
+				</div>
+				<div class="modal-footer">
+					<input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
+					<input id="editBtn" type="submit" class="btn btn-info" value="Save">
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
+<!-- Delete Modal HTML -->
+<div id="deletePlacementModal" class="modal fade">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<form (ngSubmit)="deletePlacement(updatedPlacement.id!)">
+				<div class="modal-header">						
+					<h4 class="modal-title">Delete Placement #{{updatedPlacement.id}}</h4>
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+				</div>
+				<div class="modal-body">					
+					<p>Are you sure you want to delete these Records?</p>
+					<p class="text-warning">Placement Name: <small>{{updatedPlacement.companyName}}</small></p>
+				</div>
+				<div class="modal-footer">
+					<input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
+					<input id="deleteBtn" type="submit" class="btn btn-danger" value="Delete">
+				</div>
+			</form>
+		</div>
+	</div>
+</div>

@@ -1,0 +1,173 @@
+
+
+
+
+
+
+
+<div class="container-fluid">
+	<div class="table-responsive">
+		<div id="myalert" style="display: none;" class="alert alert-success col-12 text-center ml-auto" role="alert">
+			Updated Successfully!
+		  </div>
+		<div class="table-wrapper">
+			<div class="table-title">
+				
+				<div class="row">
+					
+					<div class="col-sm-6">
+						<h2>Manage <b>Students</b></h2>
+					</div>
+					<div class="col-sm-4">
+					</div>
+					<div class="col-sm-2">
+						<a href="#addStudentModal" class="btn btn-success" data-toggle="modal"><span>Add New Student</span></a>
+					</div>
+
+				
+				</div>
+			</div>
+			<table class="table table-striped table-hover">
+				<thead>
+					<tr>
+						<th>ClgId</th>
+						<th>First Name</th>
+						<th>Last Name</th>
+						<th>Email</th>
+						<th>Date of Birth</th>
+						<th>Department</th>
+					</tr>
+				</thead>
+
+				<tr *ngIf="(students.length==0);else empList">
+					<th colspan="6"> No data found<th>
+				</tr>
+
+				<ng-template #empList>
+					<tbody *ngFor="let student of students">
+
+						<tr>
+							<td>
+								{{student.id}}
+							</td>
+							<td>{{student.firstName}}</td>
+							<td>{{student.lastName}}</td>
+							<td>{{student.email}}</td>
+							<td>{{student.dateOfBirth}}</td>
+							<td>{{student.department}}</td>
+							<td>
+								<a (click)="editStudent(student)" href="#editStudentModal" class="edit" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
+								<a (click)="editStudent(student)"  href="#deleteStudentModal" class="delete" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
+							</td>
+						</tr>
+						
+					</tbody>
+				</ng-template>
+				
+			</table>
+		
+		</div>
+	</div>        
+</div>
+<!-- Edit Modal HTML -->
+<div id="addStudentModal" class="modal fade">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<form (ngSubmit)="createStudent()" >
+				<div class="modal-header">						
+					<h4 class="modal-title">Add Student</h4>
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+				</div>
+				<div class="modal-body">					
+					<div class="form-group">
+						<label>First Name</label>
+						<input name="fname" [(ngModel)]="newStudent.firstName" type="text" class="form-control" required>
+					</div>
+					<div class="form-group">
+						<label>Last Name</label>
+						<input name="lname" [(ngModel)]="newStudent.lastName" type="text" class="form-control" required>
+					</div>
+					<div class="form-group">
+						<label>Email</label>
+						<input name="email" [(ngModel)]="newStudent.email" type="email" class="form-control" required>
+					</div>
+					<div class="form-group">
+						<label>Date Of Birth</label>
+						<input type="date" name="dob" [(ngModel)]="newStudent.dateOfBirth" class="form-control" required>
+					</div>	
+					
+					<div class="form-group">
+						<label>Department</label>
+						<input type="text" name="dept" [(ngModel)]="newStudent.department" class="form-control" required>
+					</div>	
+
+				</div>
+				<div class="modal-footer">
+					<input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
+					<input id="addBtn" type="submit" class="btn btn-success" value="Add">
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
+<!-- Edit Modal HTML -->
+<div id="editStudentModal" class="modal fade">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<form (ngSubmit)="updateStudent()">
+				<div class="modal-header">						
+					<h4 class="modal-title">Edit Student</h4>
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+				</div>
+				<div class="modal-body">					
+                    <div class="form-group">
+						<label>First Name</label>
+						<input name="fname" [(ngModel)]="updatedStudent.firstName" type="text" class="form-control" required>
+					</div>
+					<div class="form-group">
+						<label>Last Name</label>
+						<input name="lname" [(ngModel)]="updatedStudent.lastName" type="text" class="form-control" required>
+					</div>
+					<div class="form-group">
+						<label>Email</label>
+						<input name="email" [(ngModel)]="updatedStudent.email" type="email" class="form-control" required>
+					</div>
+					<div class="form-group">
+						<label>Date of Birth</label>
+						<input type="date" name="dob" [(ngModel)]="updatedStudent.dateOfBirth" class="form-control" required>
+					</div>		
+					
+					<div class="form-group">
+						<label>Department</label>
+						<input type="text" name="dob" [(ngModel)]="updatedStudent.department" class="form-control" required>
+					</div>	
+				</div>
+				<div class="modal-footer">
+					<input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
+					<input id="editBtn" type="submit" class="btn btn-info" value="Save">
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
+<!-- Delete Modal HTML -->
+<div id="deleteStudentModal" class="modal fade">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<form (ngSubmit)="deleteStudent(updatedStudent.id!)">
+				<div class="modal-header">						
+					<h4 class="modal-title">Delete Student #{{updatedStudent.id}}</h4>
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+				</div>
+				<div class="modal-body">					
+					<p>Are you sure you want to delete these Records?</p>
+					<p class="text-warning">Student Name: <small>{{updatedStudent.firstName}} {{updatedStudent.lastName}}</small></p>
+				</div>
+				<div class="modal-footer">
+					<input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
+					<input id="deleteBtn" type="submit" class="btn btn-danger" value="Delete">
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
